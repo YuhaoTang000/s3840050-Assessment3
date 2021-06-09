@@ -14,15 +14,15 @@ public class VehicleMaintenance {
 	private int odometer;
 	private int odometerWhenLastServiced;
 	private final int odometerServiceInterval;
-	
+
 	public int getOdometer() {
 		return odometer;
 	}
-	
+
 	public int getOdometerWhenLastServiced() {
 		return odometerWhenLastServiced;
 	}
-	
+
 	public int getOdometerServiceInterval() {
 		return odometerServiceInterval;
 	}

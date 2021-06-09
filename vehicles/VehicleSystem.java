@@ -94,7 +94,7 @@ public class VehicleSystem {
 	}
 	
 	public boolean removeVehicle(String rego) {
-		for (int i = 0; i<vehicles.length; i++) {
+		for (int i = 0; i < vehicles.length; i++) {
 			if (vehicles[i].getRego().equalsIgnoreCase(rego)) {
 
 				Vehicle[] proxyarray = new Vehicle[vehicles.length - 1];
