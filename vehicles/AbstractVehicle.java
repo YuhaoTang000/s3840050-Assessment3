@@ -1,5 +1,6 @@
 package vehicles;
 
+import vehicles.exceptions.IllegalRegistrationException;
 import vehicles.jobs.Job;
 import vehicles.maintenance.VehicleMaintenance;
 
@@ -21,7 +22,15 @@ public abstract class AbstractVehicle implements Vehicle{
 	private final VehicleMaintenance maintenance;
 
 	public static void isValidRego(String rego) {
-		
+		if (Character.isDigit(rego.charAt(0)) || Character.isDigit(rego.charAt(4)) || Character.isDigit(rego.charAt(5)) || !Character.isUpperCase(rego.charAt(0)) || !Character.isUpperCase(rego.charAt(4)) || !Character.isUpperCase(rego.charAt(5))) {
+			new IllegalRegistrationException("Uppercase character expected.");
+		}
+		else if (!Character.isDigit(rego.charAt(1)) || !Character.isDigit(rego.charAt(2)) || !Character.isDigit(rego.charAt(3))) {
+			new IllegalRegistrationException("Numerical character expected.");
+		}
+		else if (!(rego.length()==6)) {
+			new IllegalRegistrationException("Rego must be 6 characters.");
+		}
 	}
 	
 	public String getRego() {

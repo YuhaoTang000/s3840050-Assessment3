@@ -1,5 +1,6 @@
 package vehicles.maintenance;
 
+import vehicles.exceptions.IllegalRegistrationException;
 import vehicles.jobs.Job;
 
 public class VehicleMaintenance {
@@ -39,7 +40,7 @@ public class VehicleMaintenance {
 
 	public void travel(Job job) {
 		if (!canTravel(job))
-			System.out.println();
+			new IllegalRegistrationException("Vehicle %s unable to perform job.");
 		odometer += job.getDistance();
 	}
 
