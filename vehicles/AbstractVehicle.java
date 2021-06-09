@@ -63,7 +63,7 @@ public abstract class AbstractVehicle implements Vehicle{
 	}
 	
 	public String toString() {
-		return (rego + ";" + year + ";" + make + ";" + model + ";" + maintenance.getOdometer() + ";" + maintenance.getOdometerWhenLastServiced() + ";" + maintenance.getOdometerServiceInterval() + ";");
+		return (rego + ";" + year + ";" + make + ";" + model + ";" + maintenance.getOdometer() + ";" + maintenance.getOdometerWhenLastServiced() + ";" + maintenance.getOdometerServiceInterval());
 	}
 	
 	public abstract double calculateJobCost(Job job);

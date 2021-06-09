@@ -8,13 +8,13 @@ import vehicles.AbstractVehicle;
 import vehicles.Truck;
 import vehicles.Vehicle;
 import vehicles.VehicleSystem;
-import vehicles.exceptions.IllegalRegistrationException;
 import vehicles.jobs.Job;
+import vehicles.maintenance.TruckMaintenance;
 import vehicles.maintenance.VehicleMaintenance;
 
 public class Menu
 {
-    private static final String VEHICLES_FILENAME = "vehicles.txt";
+    private static final String VEHICLES_FILENAME = "lib/vehicles.txt";
     
     private static final int DISPLAY_VEHICLES = 1;
     private static final int PERFORM_JOB = 2;
@@ -38,10 +38,21 @@ public class Menu
     private void printMenu()
     {
         // Location #1.
+    	System.out.println("");
+    	System.out.println("--- Options ---");
+    	System.out.println("1\tDisplay Vehicles");
+    	System.out.println("2\tPerform Job");
+    	System.out.println("3\tService Vehicle");
+    	System.out.println("4\tRemove Vehicle");
+    	System.out.println("8\tSave and Quit");
+    	System.out.println("9\tQuit");
+    	System.out.println("");
+    	
     }
     
     private void runMenu()
     {
+    	//Scanner sc= new Scanner(System.in);
         boolean runMenu = true;
         while(runMenu)
         {
@@ -49,7 +60,33 @@ public class Menu
             System.out.print("Select an option: ");
             
             // Location #2.
+            
+            String input =  scanner.nextLine(); //sc.nextLine();
+            switch(input) {
+            case "1":
+            	displayVehicles();
+            	break;
+            case "2":
+            	performJob();
+            	break;
+            case "3":
+            	serviceVehicle();
+            	break;
+            case "4":
+            	removeVehicle();
+            	break;
+            case "8":
+            	saveVehicles();
+            	break;
+            case "9":
+            	runMenu = false;
+            	break;
+            default:
+            	printErrorMessage();
+            }
+           
         }
+        
     }
     
     private Integer getPositiveIntegerInput(String prompt)
@@ -60,6 +97,27 @@ public class Menu
             System.out.print(prompt);
             
             // Location #3.
+            
+            String input = scanner.nextLine();
+            try {
+            	Integer.parseInt(input);
+            }
+            catch(Exception e) {
+            	continue;
+            }
+            if(input.isEmpty()) {
+            	
+            	return null;
+            }
+            
+            else if(Integer.parseInt(input) >0) {
+            	
+            	integerInput = Integer.parseInt(input);
+            }
+            else {
+            	printErrorMessage();
+            }
+            
         }
         
         return integerInput;
@@ -111,6 +169,9 @@ public class Menu
             vehicle.getMaintenance().getDistanceRemainingBeforeNextService()));
         
         // Location #4.
+        if(vehicle instanceof Truck) {
+        	System.out.println("And has "+ ((TruckMaintenance) vehicle.getMaintenance()).getJobsRemainingBeforeNextService() + " jobs remaining.");
+        }
         
         Integer distance = getPositiveIntegerInput("Enter distance: ");
         
@@ -141,6 +202,7 @@ public class Menu
             return;
         
         // Location #5.
+        vehicle.getMaintenance().service();
         
         System.out.println(String.format(
             "Successfully serviced vehicle with rego %s.", vehicle.getRego()));
@@ -179,9 +241,9 @@ public class Menu
             if(vehicle == null)
                 printErrorMessage(String.format("No vehicle with rego %s found.", rego));
         }
-        catch(IllegalRegistrationException e)
+        catch(Exception e)
         {
-            printErrorMessage(e);
+            printErrorMessage();
         }
         
         return vehicle;
@@ -190,6 +252,12 @@ public class Menu
     private boolean loadVehicles()
     {
         // Location #6.
+    	try {
+			vehicleSystem.loadVehicles(VEHICLES_FILENAME);
+		} catch (IOException e) {
+			System.out.print("Could not open vehicles.txt");
+			return false;
+		}
         return true;
     }
     

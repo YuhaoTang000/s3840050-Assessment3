@@ -17,7 +17,7 @@ public class VehicleSystem {
 		
 	}
 	
-	private Vehicle[] vehicles;
+	private Vehicle[] vehicles = new Vehicle[0];
 	
 	public Vehicle[] getVehicles() {
 		return vehicles;
@@ -56,13 +56,14 @@ public class VehicleSystem {
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)));
 		for (int i = 0; i<vehicles.length; i++) {
 			bw.write(vehicles[i].toString());
-			bw.write("/n");
+			bw.write("\n");
 		}
+		bw.close();
 	}
 	
 	public Vehicle getVehicle(String rego) {
 		for (int i = 0; i<vehicles.length; i++) {
-			if (vehicles[i].getRego() == rego)
+			if (vehicles[i].getRego().equalsIgnoreCase(rego))
 				return vehicles[i];
 		}
 		return null;
@@ -94,20 +95,21 @@ public class VehicleSystem {
 	
 	public boolean removeVehicle(String rego) {
 		for (int i = 0; i<vehicles.length; i++) {
-			if (vehicles[i].getRego() == rego)
-				return false;
-		}
-		
-		Vehicle[] proxyarray = new Vehicle[vehicles.length - 1];
-		int proxyloop = 0;
-		for (int i = 0; i < vehicles.length; ++i) {
-			if (!rego.equalsIgnoreCase(vehicles[i].getRego())) {
-				proxyarray[proxyloop] = vehicles[i];
-				proxyloop += 1;
-			}
+			if (vehicles[i].getRego().equalsIgnoreCase(rego)) {
 
+				Vehicle[] proxyarray = new Vehicle[vehicles.length - 1];
+				int proxyloop = 0;
+				for (int j = 0; j < vehicles.length; ++j) {
+					if (!rego.equalsIgnoreCase(vehicles[j].getRego())) {
+						proxyarray[proxyloop] = vehicles[j];
+						proxyloop += 1;
+					}
+
+				}
+				vehicles = proxyarray;
+				return true;
+			}	
 		}
-		vehicles = proxyarray;
-		return true;
+		return false;
 	}
 }
