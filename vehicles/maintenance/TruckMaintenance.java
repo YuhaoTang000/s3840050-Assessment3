@@ -11,6 +11,10 @@ public class TruckMaintenance extends VehicleMaintenance{
 	
 	private int jobsSinceLastService;
 	
+	public int getJobsSinceLastService() {
+		return jobsSinceLastService;
+	}
+	
 	public int getJobsRemainingBeforeNextService() {
 		int jobs = 5 - jobsSinceLastService;
 		return jobs;
