@@ -11,7 +11,7 @@ public class Van extends AbstractVehicle{
 
 	
 	public double calculateJobCost(Job job) {
-		return 0;
+		return (200 + 0.85* job.getDistance());
 	}
 
 }
